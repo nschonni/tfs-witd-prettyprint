@@ -33,14 +33,6 @@
 	<xsl:template match="CANNOTLOSEVALUE">
 		<li>Users cannot clear a field of all values after a value has been specified (<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>CANNOTLOSEVALUE</a>).</li>
 	</xsl:template>
-	<xsl:template name="for-not-permissions">
-		<xsl:if test="@for">
-			Allowed for users in the group <xsl:value-of select="@for"/>.
-		</xsl:if>
-		<xsl:if test="@not">
-			Dissallowed for users in the group <xsl:value-of select="@not"/>.
-		</xsl:if>
-	</xsl:template>
 	<xsl:template match="COPY">
 		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194948.aspx'>COPY</a>)</li>
 	</xsl:template>
@@ -63,13 +55,21 @@
 		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>NOTSAMEAS</a>)</li>
 	</xsl:template>
 	<xsl:template match="PROHIBITEDVALUES">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194947.aspx'>PROHIBITEDVALUES</a>)</li>
+		<li>
+			Dissallows values from the following (<a href='https://msdn.microsoft.com/en-us/library/ms194947.aspx'>PROHIBITEDVALUES</a>):
+			<ul>
+				<xsl:apply-templates select="node()" />
+			</ul>
+		</li>
 	</xsl:template>
 	<xsl:template match="READONLY">
 		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>READONLY</a>)</li>
 	</xsl:template>
 	<xsl:template match="REQUIRED">
-		<li>Users must specify a value for the field (<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>REQUIRED</a>)</li>
+		<li>
+			Users must specify a value for the field (<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>REQUIRED</a>)
+			<xsl:call-template name="for-not-permissions" />
+		</li>
 	</xsl:template>
 	<xsl:template match="SERVERDEFAULT">
 		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194948.aspx'>SERVERDEFAULT</a>)</li>
@@ -78,25 +78,54 @@
 		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194947.aspx'>SUGGESTEDVALUES</a>)</li>
 	</xsl:template>
 	<xsl:template match="VALIDUSER">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/dd997577.aspx'>VALIDUSER</a>)</li>
+		<li>(<a href='https://www.visualstudio.com/en-us/docs/work/reference/apply-rule-work-item-field#scope'>VALIDUSER</a>)</li>
 	</xsl:template>
 	<xsl:template match="WHEN">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHEN</a>)</li>
+		<li>
+			When the field <a href='#{@field}'><xsl:value-of select="@field" /></a> equals "<xsl:value-of select="@value" />", the following rules apply (<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHEN</a>):
+			
+			<ul>
+				<xsl:apply-templates select="node()" />
+			</ul>
+		</li>
 	</xsl:template>
 	<xsl:template match="WHENNOT">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHENNOT</a>)</li>
+		<li>
+			When the field <a href='#{@field}'><xsl:value-of select="@field" /></a> <strong>DOES NOT</strong> equal "<xsl:value-of select="@value" />", the following rules apply (<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHENNOT</a>):
+			<ul>
+				<xsl:apply-templates select="node()" />
+			</ul>
+		</li>
 	</xsl:template>
 	<xsl:template match="WHENCHANGED">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHENCHANGED</a>)</li>
+		<li>
+			When the field <a href='#{@field}'><xsl:value-of select="@field" /></a> <strong>HAS</strong> changed, following rules apply(<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHENCHANGED</a>):
+			<ul>
+				<xsl:apply-templates select="node()" />
+			</ul>
+		</li>
 	</xsl:template>
 	<xsl:template match="WHENNOTCHANGED">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHENNOTCHANGED</a>)</li>
+		<li>
+			When the field <a href='#{@field}'><xsl:value-of select="@field" /></a> <strong>HAS NOT</strong> changed, following rules apply (<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHENNOTCHANGED</a>)
+			<ul>
+				<xsl:apply-templates select="node()" />
+			</ul>
+		</li>
 	</xsl:template>
 	<xsl:template match="GLOBALLIST">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194977.aspx'>Globale List</a>): <xsl:value-of select="@name"/></li>
+		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194977.aspx'>Global List</a>): <xsl:value-of select="@name"/></li>
 	</xsl:template>
 	<xsl:template match="LISTITEM">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194947'>LISTITEM</a>)</li>
+		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194947'>LISTITEM</a>): <xsl:value-of select="@value"/></li>
+	</xsl:template>
+	<xsl:template name="for-not-permissions">
+		<xsl:if test="@for">
+			Allowed for users in the group <xsl:value-of select="@for"/>.
+		</xsl:if>
+		<xsl:if test="@not">
+			Dissallowed for users in the group <xsl:value-of select="@not"/>.
+		</xsl:if>
 	</xsl:template>
 	<xsl:template match="/">
 		<head>
