@@ -43,7 +43,7 @@
 		<li>Clears the field of any value that it contains and makes it read-only (<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>EMPTY</a>)</li>
 	</xsl:template>
 	<xsl:template match="FROZEN">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>FROZEN</a>)</li>
+		<li>As soon as a value is saved, the value can no longer be modified(<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>FROZEN</a>)</li>
 	</xsl:template>
 	<xsl:template match="HELPTEXT">
 		<!-- <p><xsl:value-of select="."/></p> -->
