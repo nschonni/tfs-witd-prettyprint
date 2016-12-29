@@ -63,7 +63,7 @@
 		</li>
 	</xsl:template>
 	<xsl:template match="READONLY">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>READONLY</a>)</li>
+		<li>Cannot Modify the value (<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>READONLY</a>)</li>
 	</xsl:template>
 	<xsl:template match="REQUIRED">
 		<li>
