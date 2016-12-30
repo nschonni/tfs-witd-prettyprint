@@ -116,6 +116,7 @@
   </xsl:template>
   <xsl:template match="MATCH">
     <li>
+      Must match the pattern "<xsl:value-of select="@pattern"/>"
       (<a href='https://msdn.microsoft.com/en-us/library/ms404842.aspx'>MATCH</a>)
     </li>
   </xsl:template>
