@@ -17,6 +17,13 @@
 			</ul>
 		</xsl:for-each>
 	</xsl:template>
+	<xsl:template match="ACTIONS">
+		<ul>
+			<xsl:for-each select="ACTION">
+				<li><xsl:value-of select="@value" /></li>
+			</xsl:for-each>
+		</ul>
+	</xsl:template>
 	<xsl:template match="FIELD">
 		Type: <xsl:value-of select="@type"/><br />
 		<xsl:if test="@syncnamechanges">
@@ -217,6 +224,7 @@
 					<th>To</th>
 					<th>Allowed</th>
 					<th>Reason</th>
+					<th>Action</th>
 					<th>Fields</th>
 				</tr>
 				<xsl:for-each select="//witd:WITD/WORKITEMTYPE/WORKFLOW/TRANSITIONS/TRANSITION">
@@ -234,6 +242,7 @@
 							</xsl:choose>
 						</td>
 						<td><xsl:apply-templates select="REASONS" /></td>
+						<td><xsl:apply-templates select="ACTIONS" /></td>
 						<td><xsl:apply-templates select="FIELDS" /></td>
 					</tr>
 				</xsl:for-each>
