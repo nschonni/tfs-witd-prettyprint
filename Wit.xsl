@@ -158,7 +158,10 @@
   </xsl:template>
   <xsl:template match="SUGGESTEDVALUES">
     <li>
-      (<a href='https://msdn.microsoft.com/en-us/library/ms194947.aspx'>SUGGESTEDVALUES</a>)
+      Users are free to enter their own values, but values are suggested from the following (<a href='https://msdn.microsoft.com/en-us/library/ms194947.aspx'>SUGGESTEDVALUES</a>):
+      <ul>
+        <xsl:apply-templates select="node()" />
+      </ul>
     </li>
   </xsl:template>
   <xsl:template match="VALIDUSER">
