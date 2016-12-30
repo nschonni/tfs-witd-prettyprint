@@ -229,7 +229,20 @@
   </xsl:template>
   <xsl:template match="LISTITEM">
     <li>
-      "<xsl:value-of select="@value"/>"
+      <xsl:choose>
+        <xsl:when test="starts-with(@value, '[project]')">
+          The project level group "<xsl:value-of select="substring(@value, 11)"/>"
+        </xsl:when>
+        <xsl:when test="starts-with(@value, '[global]')">
+          The collection level group "<xsl:value-of select="substring(@value, 8)"/>"
+        </xsl:when>
+        <xsl:when test="starts-with(@value, '[Team Foundation]')">
+          The server level group "<xsl:value-of select="substring(@value, 17)"/>"
+        </xsl:when>
+        <xsl:otherwise>
+          "<xsl:value-of select="@value"/>"
+        </xsl:otherwise>
+      </xsl:choose>
     </li>
   </xsl:template>
   <xsl:template name="for-not-permissions">
