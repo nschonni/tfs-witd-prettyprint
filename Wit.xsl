@@ -203,12 +203,14 @@
 				</tr>
 				</xsl:for-each>
 			</table>
-			<h2>States</h2>
+			<h2>Workflow</h2>
+			<p><a href='https://msdn.microsoft.com/en-us/library/gg534715.aspx'>All WORKFLOW XML elements reference</a></p>
+			<h3>States</h3>
 			<xsl:for-each select="//witd:WITD/WORKITEMTYPE/WORKFLOW/STATES/STATE">
-				<h3><xsl:value-of select="@value"/></h3>
+				<h4><xsl:value-of select="@value"/></h4>
 				<xsl:apply-templates />
 			</xsl:for-each>
-			<h2>Transitions</h2>
+			<h3>Transitions</h3>
 			<table>
 				<tr>
 					<th>From</th>
