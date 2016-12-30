@@ -8,6 +8,15 @@
 			</ul>
 		</xsl:for-each>
 	</xsl:template>
+	<xsl:template match="REASONS">
+		Default Reason: <xsl:value-of select="DEFAULTREASON/@value" /><br />
+		<xsl:for-each select="REASON">
+			<a href='#{@refname}'><xsl:value-of select="@refname" /></a>
+			<ul>
+				<xsl:apply-templates select="node()" />
+			</ul>
+		</xsl:for-each>
+	</xsl:template>
 	<xsl:template match="FIELD">
 		Type: <xsl:value-of select="@type"/><br />
 		<xsl:if test="@syncnamechanges">
@@ -205,6 +214,7 @@
 					<th>From</th>
 					<th>To</th>
 					<th>Allowed</th>
+					<th>Reason</th>
 					<th>Fields</th>
 				</tr>
 				<xsl:for-each select="//witd:WITD/WORKITEMTYPE/WORKFLOW/TRANSITIONS/TRANSITION">
@@ -221,6 +231,7 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</td>
+						<td><xsl:apply-templates select="REASONS" /></td>
 						<td><xsl:apply-templates select="FIELDS" /></td>
 					</tr>
 				</xsl:for-each>
