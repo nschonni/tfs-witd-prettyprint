@@ -50,16 +50,47 @@
 		<li>Users cannot clear a field of all values after a value has been specified (<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>CANNOTLOSEVALUE</a>).</li>
 	</xsl:template>
 	<xsl:template match="COPY">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194948.aspx'>COPY</a>)</li>
+		<li>
+			<xsl:choose>
+				<xsl:when test="@from='clock'">
+					Copy the time from the system clock
+				</xsl:when>
+				<xsl:when test="@from='currentuser'">
+					Copy the name of the user who is logged on
+				</xsl:when>
+				<xsl:when test="@from='field'">
+					Copy the value from <a href='#{@field}'><xsl:value-of select="@field" /></a>
+				</xsl:when>
+				<xsl:when test="@from='value'">
+					Copy the value "<xsl:value-of select="@value"/>"
+				</xsl:when>
+			</xsl:choose>
+			(<a href='https://msdn.microsoft.com/en-us/library/ms194948.aspx'>COPY</a>)</li>
 	</xsl:template>
 	<xsl:template match="DEFAULT">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194948.aspx'>DEFAULT</a>)</li>
+		<li>
+			<xsl:choose>
+				<xsl:when test="@from='clock'">
+					Defaults to the time from the system clock
+				</xsl:when>
+				<xsl:when test="@from='currentuser'">
+					Defaults to the name of the user who is logged on
+				</xsl:when>
+				<xsl:when test="@from='field'">
+					Defaults to the value from <a href='#{@field}'><xsl:value-of select="@field" /></a>
+				</xsl:when>
+				<xsl:when test="@from='value'">
+					Defaults to the value "<xsl:value-of select="@value"/>"
+				</xsl:when>
+			</xsl:choose>
+			(<a href='https://msdn.microsoft.com/en-us/library/ms194948.aspx'>DEFAULT</a>)
+		</li>
 	</xsl:template>
 	<xsl:template match="EMPTY">
 		<li>Clears the field of any value that it contains and makes it read-only (<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>EMPTY</a>)</li>
 	</xsl:template>
 	<xsl:template match="FROZEN">
-		<li>As soon as a value is saved, the value can no longer be modified(<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>FROZEN</a>)</li>
+		<li>As soon as a value is saved, the value can no longer be modified (<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>FROZEN</a>)</li>
 	</xsl:template>
 	<xsl:template match="HELPTEXT">
 		<!-- <p><xsl:value-of select="."/></p> -->
@@ -88,18 +119,37 @@
 		</li>
 	</xsl:template>
 	<xsl:template match="SERVERDEFAULT">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194948.aspx'>SERVERDEFAULT</a>)</li>
+		<li>
+			<xsl:choose>
+				<xsl:when test="@from='clock'">
+					Defaults to the time from the server's clock when saved to the database
+				</xsl:when>
+				<xsl:when test="@from='currentuser'">
+					Defaults to the name of the user, but only recored when saved to the database
+				</xsl:when>
+			</xsl:choose>
+			(<a href='https://msdn.microsoft.com/en-us/library/ms194948.aspx'>SERVERDEFAULT</a>)</li>
 	</xsl:template>
 	<xsl:template match="SUGGESTEDVALUES">
 		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194947.aspx'>SUGGESTEDVALUES</a>)</li>
 	</xsl:template>
 	<xsl:template match="VALIDUSER">
-		<li>(<a href='https://www.visualstudio.com/en-us/docs/work/reference/apply-rule-work-item-field#scope'>VALIDUSER</a>)</li>
+		<li>
+			Restricts work items from being modified by users who belong to the group
+			<xsl:choose>
+				<xsl:when test="@group">
+					"<xsl:value-of select="@group"/>"
+				</xsl:when>
+				<xsl:otherwise>
+					"Team Foundation Valid Users"
+				</xsl:otherwise>
+			</xsl:choose>
+			(<a href='https://www.visualstudio.com/en-us/docs/work/reference/apply-rule-work-item-field#scope'>VALIDUSER</a>)
+		</li>
 	</xsl:template>
 	<xsl:template match="WHEN">
 		<li>
 			When the field <a href='#{@field}'><xsl:value-of select="@field" /></a> equals "<xsl:value-of select="@value" />", the following rules apply (<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHEN</a>):
-			
 			<ul>
 				<xsl:apply-templates select="node()" />
 			</ul>
@@ -115,7 +165,7 @@
 	</xsl:template>
 	<xsl:template match="WHENCHANGED">
 		<li>
-			When the field <a href='#{@field}'><xsl:value-of select="@field" /></a> <strong>HAS</strong> changed, following rules apply(<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHENCHANGED</a>):
+			When the field <a href='#{@field}'><xsl:value-of select="@field" /></a> <strong>HAS</strong> changed, following rules apply (<a href='https://msdn.microsoft.com/en-us/library/ms194966.aspx'>WHENCHANGED</a>):
 			<ul>
 				<xsl:apply-templates select="node()" />
 			</ul>
@@ -133,7 +183,7 @@
 		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194977.aspx'>Global List</a>): <xsl:value-of select="@name"/></li>
 	</xsl:template>
 	<xsl:template match="LISTITEM">
-		<li>(<a href='https://msdn.microsoft.com/en-us/library/ms194947'>LISTITEM</a>): <xsl:value-of select="@value"/></li>
+		<li>"<xsl:value-of select="@value"/>"</li>
 	</xsl:template>
 	<xsl:template name="for-not-permissions">
 		<xsl:if test="@for">
@@ -202,7 +252,7 @@
 						<xsl:apply-templates select="current()" />
 					</td>
 					<td>
-						
+
 						<ul>
 							<xsl:apply-templates select="node()" />
 						</ul>
