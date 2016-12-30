@@ -247,9 +247,6 @@
         body{ text-align: left; width: 95%;  font-family: Calibri, sans-serif; }
 
         table{ margin-left:60px; border: none;  border-collapse: separate;  width: 90%; }
-
-        tr.title td{ background: white;font-size: 26px;  font-weight: bold; }
-
         th{ background: #d0d0d0;  font-weight: bold;  font-size: 16pt;  text-align: left; }
         tr{ background: #eeeeee}
         td, th{
@@ -262,21 +259,10 @@
         font-family:'Segoe UI';
         }
 
-        .ProjectsHeader {
-
-        }
-        span.tab{
-        padding: 0 80px; /* Or desired space*/
-        }
-        tr.info td{}
-        tr.warning td{background-color:yellow;color:black}
-        tr.error td{background-color:red;color:black}
-
-        a:hover{text-transform:uppercase;color: #9090F0;}
       </style>
     </head>
     <body>
-      <h1 style="margin-left:60px">
+      <h1>
         WIT Report for <xsl:value-of select="//witd:WITD/WORKITEMTYPE/@name"/>
       </h1>
       <p>
@@ -305,7 +291,6 @@
               <xsl:apply-templates select="current()" />
             </td>
             <td>
-
               <ul>
                 <xsl:apply-templates select="node()" />
               </ul>
