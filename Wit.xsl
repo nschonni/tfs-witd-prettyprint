@@ -122,6 +122,9 @@
   </xsl:template>
   <xsl:template match="NOTSAMEAS">
     <li>
+      Prevent the field from having the same value as <a href='#{@field}'>
+        <xsl:value-of select="@field" />
+      </a>
       (<a href='https://msdn.microsoft.com/en-us/library/ms404857.aspx'>NOTSAMEAS</a>)
     </li>
   </xsl:template>
